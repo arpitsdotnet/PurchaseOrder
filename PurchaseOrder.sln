@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{C58B31B8-D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseOrder.DataManager", "PurchaseOrder.DataManager\PurchaseOrder.DataManager.csproj", "{FBFEE1D8-5CCB-45B8-9EC5-B5B29219F094}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseOrder.Services", "PurchaseOrder.Services\PurchaseOrder.Services.csproj", "{87462D6A-0BBC-4E38-9B6E-D2B886291A99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{FBFEE1D8-5CCB-45B8-9EC5-B5B29219F094}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBFEE1D8-5CCB-45B8-9EC5-B5B29219F094}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBFEE1D8-5CCB-45B8-9EC5-B5B29219F094}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87462D6A-0BBC-4E38-9B6E-D2B886291A99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87462D6A-0BBC-4E38-9B6E-D2B886291A99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87462D6A-0BBC-4E38-9B6E-D2B886291A99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87462D6A-0BBC-4E38-9B6E-D2B886291A99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

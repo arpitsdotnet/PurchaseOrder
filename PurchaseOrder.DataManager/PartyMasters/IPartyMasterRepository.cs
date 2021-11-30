@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PurchaseOrder.DataManager.PartyMasters
 {
-    public interface IPartyMasterDataAccess : IRepository<PartyMasterModel>
+    public interface IPartyMasterRepository : IRepository<PartyMasterModel>
     {
     }
 }

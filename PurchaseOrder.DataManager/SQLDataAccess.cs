@@ -12,18 +12,14 @@ namespace PurchaseOrder.DataManager
 {
     internal class SQLDataAccess : IDbContext
     {
-        private string GetConnectionString()
-        {
-            return ConfigurationManager.ConnectionStrings["FWT_PurchaseOrder_Connection"].ConnectionString;
-        }
 
+        private string ConnectionString => ConfigurationManager.ConnectionStrings["FWT_PurchaseOrder_Connection"].ConnectionString;
+       
         public List<T> LoadData<T, U>(string storedProcedure, U parameters)
         {
-            string connString = GetConnectionString();
-
             try
             {
-                using (SqlConnection con = new SqlConnection(connString))
+                using (SqlConnection con = new SqlConnection(ConnectionString))
                 {
                     List<T> rows = con.Query<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure).ToList();
 
@@ -38,11 +34,9 @@ namespace PurchaseOrder.DataManager
 
         public int SaveData<T>(string storedProcedure, T parameters)
         {
-            string connString = GetConnectionString();
-
             try
             {
-                using (SqlConnection con = new SqlConnection(connString))
+                using (SqlConnection con = new SqlConnection(ConnectionString))
                 {
                     int i = con.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
                     return i;
@@ -54,19 +48,19 @@ namespace PurchaseOrder.DataManager
             }
         }
 
-        public int SaveDataOutParam<T, U>(string storedProcedure, T parameters, out U returnVar, DbType outputDbType, int? size, string outputVarName)
-        {
-            throw new NotImplementedException();
-        }
+        //public int SaveDataOutParam<T, U>(string storedProcedure, T parameters, out U returnVar, DbType outputDbType, int? size, string outputVarName)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public int SaveDataWithSubdata<T, U, V>(string storedProcedureT, string storedProcedureU, T model, List<U> submodel, string modelIdName, out V returnVar, DbType outputDbType, int? size, string outputVarName)
-        {
-            throw new NotImplementedException();
-        }
+        //public int SaveDataWithSubdata<T, U, V>(string storedProcedureT, string storedProcedureU, T model, List<U> submodel, string modelIdName, out V returnVar, DbType outputDbType, int? size, string outputVarName)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public int SaveMultipleData<T>(string storedProcedure, List<T> parameters)
-        {
-            throw new NotImplementedException();
-        }
+        //public int SaveMultipleData<T>(string storedProcedure, List<T> parameters)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

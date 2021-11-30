@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PurchaseOrder.DataManager.ItemMasters
 {
-    public interface IItemMasterDataAccess: IRepository<ItemMasterModel>
+    public interface IItemMasterRepository: IRepository<ItemMasterModel>
     {
     }
 }

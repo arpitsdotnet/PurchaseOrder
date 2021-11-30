@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PurchaseOrder.DataManager.PartyMasters
+namespace PurchaseOrder.DataManager.ItemMasters
 {
-    public class PartyMasterDataAccess : IPartyMasterDataAccess
+    public class ItemMasterRepository : IItemMasterRepository
     {
         private readonly IDbContext _dbContext;
 
-        public PartyMasterDataAccess()
+        public ItemMasterRepository()
         {
             this._dbContext = DbContextFactory.Instance;
         }
@@ -21,16 +21,16 @@ namespace PurchaseOrder.DataManager.PartyMasters
             throw new NotImplementedException();
         }
 
-        public int Edit(int ID, PartyMasterModel model)
+        public int Edit(int ID, ItemMasterModel model)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<PartyMasterModel> GetAll()
+        public IEnumerable<ItemMasterModel> GetAll()
         {
             try
             {
-                var result = _dbContext.LoadData<PartyMasterModel, dynamic>("sps_tblPartyMaster_GetAll", new { });
+                var result = _dbContext.LoadData<ItemMasterModel, dynamic>("sps_tblItemMaster_GetAll", new { });
 
                 return result;
             }
@@ -40,13 +40,13 @@ namespace PurchaseOrder.DataManager.PartyMasters
             }
         }
 
-        public PartyMasterModel GetByID(int ID)
+        public ItemMasterModel GetByID(int ID)
         {
             try
             {
-                var p = new { PartyID = ID };
+                var p = new { ItemID = ID };
 
-                var result = _dbContext.LoadData<PartyMasterModel, dynamic>("sps_tblPartyMaster_GetByID", p);
+                var result = _dbContext.LoadData<ItemMasterModel, dynamic>("sps_tblItemMaster_GetByID", p);
 
                 return result.FirstOrDefault();
             }
@@ -56,7 +56,7 @@ namespace PurchaseOrder.DataManager.PartyMasters
             }
         }
 
-        public int Save(PartyMasterModel model)
+        public int Save(ItemMasterModel model)
         {
             throw new NotImplementedException();
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PurchaseOrder.DataManager.PODetails
 {
-    public interface IPODetailsDataAccess : IRepository<PODetailsModel>
+    public interface IPODetailsRepository : IRepository<PODetailsModel>
     {
         PODetailsModel GetByPOID(int POID);
     }

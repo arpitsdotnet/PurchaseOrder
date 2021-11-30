@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace PurchaseOrder.DataManager.PODetails
 {
-    public class PODetailsDataAccess : IPODetailsDataAccess
+    public class PODetailsRepository : IPODetailsRepository
     {
         private readonly IDbContext _dbContext;
 
-        public PODetailsDataAccess()
+        public PODetailsRepository()
         {
             this._dbContext = DbContextFactory.Instance;
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PurchaseOrder.DataManager.POMasters
 {
-    public interface IPOMasterDataAccess : IRepository<POMasterModel>
+    public interface IPOMasterRepository : IRepository<POMasterModel>
     {
         POMasterModel GetByPONo(string PONo);
     }

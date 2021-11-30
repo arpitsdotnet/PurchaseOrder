@@ -39,7 +39,7 @@ namespace PurchaseOrder.DataManager
         /// <param name="storedProcedure">Pass stored procedure name.</param>
         /// <param name="parameters">Pass T type of generics object as parameters, type "new { }" for no parameters and T as dynamics.</param>
         /// <returns>Returns an integer about how many rows updated.</returns>
-        int SaveDataOutParam<T, U>(string storedProcedure, T parameters, out U returnVar, DbType outputDbType, int? size, string outputVarName);
+        //int SaveDataOutParam<T, U>(string storedProcedure, T parameters, out U returnVar, DbType outputDbType, int? size, string outputVarName);
 
         /// <summary>
         /// Method will create, update its model and submodel with transactional query
@@ -55,8 +55,8 @@ namespace PurchaseOrder.DataManager
         /// <param name="submodel">Pass U type of generics object as parameters, type "new { }" for no parameters and U as dynamics.</param>
         /// <param name="modelIdName">Column Name of T type to be passed on submodel U</param>
         /// <returns>Returns an integer about how many rows updated.</returns>
-        int SaveDataWithSubdata<T, U, V>(string storedProcedureT, string storedProcedureU, T model, List<U> submodel, string modelIdName, out V returnVar, DbType outputDbType, int? size, string outputVarName);
-        int SaveMultipleData<T>(string storedProcedure, List<T> parameters);
+        //int SaveDataWithSubdata<T, U, V>(string storedProcedureT, string storedProcedureU, T model, List<U> submodel, string modelIdName, out V returnVar, DbType outputDbType, int? size, string outputVarName);
+        //int SaveMultipleData<T>(string storedProcedure, List<T> parameters);
         //DataTable LoadDataByProcedure(string strQueryName, List<Parameter> oParams);
         //DataTable LoadDataByQuery(string strQueryText);
     }

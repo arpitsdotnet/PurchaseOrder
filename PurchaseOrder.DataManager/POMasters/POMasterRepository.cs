@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace PurchaseOrder.DataManager.POMasters
 {
-    public class POMasterDataAccess : IPOMasterDataAccess
+    public class POMasterRepository : IPOMasterRepository
     {
         private readonly IDbContext _dbContext;
 
-        public POMasterDataAccess()
+        public POMasterRepository()
         {
             this._dbContext = DbContextFactory.Instance;
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PurchaseOrder.DataManager.POMasters
 {
-    public class POMasterDataAccess : IRepository<POMasterModel>
+    public class POMasterDataAccess : IPOMasterDataAccess
     {
         private readonly IDbContext _dbContext;
 
@@ -81,6 +81,22 @@ namespace PurchaseOrder.DataManager.POMasters
                 var p = new { POID = ID };
 
                 var result = _dbContext.LoadData<POMasterModel, dynamic>("sps_tblPOMaster_GetByID", p);
+
+                return result.FirstOrDefault();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public POMasterModel GetByPONo(string PONo)
+        {
+            try
+            {
+                var p = new { PONo };
+
+                var result = _dbContext.LoadData<POMasterModel, dynamic>("sps_tblPOMaster_GetByPONo", p);
 
                 return result.FirstOrDefault();
             }

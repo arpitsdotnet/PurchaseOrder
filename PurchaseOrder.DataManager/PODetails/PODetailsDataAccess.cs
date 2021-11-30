@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PurchaseOrder.DataManager.PODetails
 {
-    public class PODetailsDataAccess : IRepository<PODetailsModel>
+    public class PODetailsDataAccess : IPODetailsDataAccess
     {
         private readonly IDbContext _dbContext;
 
@@ -76,9 +76,25 @@ namespace PurchaseOrder.DataManager.PODetails
         {
             try
             {
-                var p = new { POID = ID };
+                var p = new { PODetailsID = ID };
 
                 var result = _dbContext.LoadData<PODetailsModel, dynamic>("sps_tblPODetails_GetByID", p);
+
+                return result.FirstOrDefault();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public PODetailsModel GetByPOID(int POID)
+        {
+            try
+            {
+                var p = new { POID };
+
+                var result = _dbContext.LoadData<PODetailsModel, dynamic>("sps_tblPODetails_GetByPOID", p);
 
                 return result.FirstOrDefault();
             }

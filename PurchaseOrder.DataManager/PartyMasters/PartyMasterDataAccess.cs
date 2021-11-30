@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PurchaseOrder.DataManager.PartyMasters
 {
-    public class PartyMasterDataAccess : IRepository<PartyMasterModel>
+    public class PartyMasterDataAccess : IPartyMasterDataAccess
     {
         private readonly IDbContext _dbContext;
 

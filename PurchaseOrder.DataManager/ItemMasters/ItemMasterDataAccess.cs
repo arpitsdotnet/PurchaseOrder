@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PurchaseOrder.DataManager.ItemMasters
 {
-    public class ItemMasterDataAccess : IRepository<ItemMasterModel>
+    public class ItemMasterDataAccess : IItemMasterDataAccess
     {
         private readonly IDbContext _dbContext;
 

@@ -66,5 +66,20 @@
     <Build Include="dbo\Tables\tblItemMaster.sql" />
     <Build Include="dbo\Tables\tblPOMaster.sql" />
     <Build Include="dbo\Tables\tblPODetails.sql" />
+    <Build Include="dbo\Stored Procedures\sps_tblItemMaster_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\sps_tblItemMaster_GetByID.sql" />
+    <Build Include="dbo\Stored Procedures\sps_tblPartyMaster_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\sps_tblPartyMaster_GetByID.sql" />
+    <Build Include="dbo\Stored Procedures\sps_tblPOMaster_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\sps_tblPOMaster_GetByID.sql" />
+    <Build Include="dbo\Stored Procedures\spi_tblPOMaster_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\spu_tblPOMaster_Update.sql" />
+    <Build Include="dbo\Stored Procedures\spd_tblPOMaster_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\sps_tblPODetails_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\sps_tblPODetails_GetByID.sql" />
+    <Build Include="dbo\Stored Procedures\sps_tblPODetails_GetByPOID.sql" />
+    <Build Include="dbo\Stored Procedures\spd_tblPODetails_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\spu_tblPODetails_Update.sql" />
+    <Build Include="dbo\Stored Procedures\spi_tblPODetails_Insert.sql" />
   </ItemGroup>
 </Project>

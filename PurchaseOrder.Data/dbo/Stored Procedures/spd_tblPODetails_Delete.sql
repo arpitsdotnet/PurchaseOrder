@@ -1,0 +1,19 @@
+﻿CREATE PROCEDURE [dbo].[spd_tblPODetails_Delete]
+	@PODetailsID INT
+AS
+BEGIN
+	BEGIN TRY		
+		BEGIN TRANSACTION			
+		
+		-- DELETE PO DETAILS
+		DELETE FROM [dbo].[tblPODetails] 
+		WHERE [PODetailsID] = @PODetailsID					 
+
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH		
+		
+		ROLLBACK TRANSACTION		
+
+	END CATCH 
+END

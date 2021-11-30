@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[tblPartyMaster]
+(
+	[PartyID] INT NOT NULL PRIMARY KEY IDENTITY,
+	[PartyName] NVARCHAR(50) NULL,
+	[City] NVARCHAR(50) NULL,
+)

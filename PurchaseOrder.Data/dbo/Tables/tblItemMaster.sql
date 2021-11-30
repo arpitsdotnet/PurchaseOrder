@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[tblItemMaster]
+(
+	[ItemID] INT NOT NULL PRIMARY KEY IDENTITY,
+	[ItemName] NVARCHAR(50) NULL,
+)

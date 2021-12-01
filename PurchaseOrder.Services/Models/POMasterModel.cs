@@ -15,6 +15,7 @@ namespace PurchaseOrder.Services.Models
         public string PONo { get; set; }
 
         [Display(Name = "PO Date")]
+        [DataType(DataType.Date)]
         public DateTime PODate { get; set; }
 
         [Display(Name = "Party")]

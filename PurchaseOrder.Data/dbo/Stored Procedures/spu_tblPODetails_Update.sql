@@ -2,6 +2,7 @@
 	@PODetailsID INT,
 	@POID INT,
 	@ItemID INT,
+	@Details NVARCHAR(50),
 	@Qty INT,
 	@Rate DECIMAL(18,4),
 	@Amount DECIMAL(18,4),
@@ -17,6 +18,7 @@ BEGIN
 		SET
 			[POID] = @POID,
 			[ItemID] = @ItemID,
+			[Details] = @Details,
 			[Qty] = @Qty,
 			[Rate] = @Rate,
 			[Amount] = @Amount,

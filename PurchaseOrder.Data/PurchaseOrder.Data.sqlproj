@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{8da3a732-6dbe-436e-8c2a-ceb546a33c86}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -60,6 +60,7 @@
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Views" />
+    <Folder Include="Profiles" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\tblPartyMaster.sql" />
@@ -81,5 +82,8 @@
     <Build Include="dbo\Stored Procedures\spd_tblPODetails_Delete.sql" />
     <Build Include="dbo\Stored Procedures\spu_tblPODetails_Update.sql" />
     <Build Include="dbo\Stored Procedures\spi_tblPODetails_Insert.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Profiles\PurchaseOrder.Data.publish.xml" />
   </ItemGroup>
 </Project>

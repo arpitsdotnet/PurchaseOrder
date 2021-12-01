@@ -6,7 +6,7 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-	SELECT [PODetailsID],[POID],[ItemID],[Qty],[Rate],[Amount],[DiscPer],[Discount],[TotalAmt]
+	SELECT [PODetailsID],[POID],[ItemID],[Details],[Qty],[Rate],[Amount],[DiscPer],[Discount],[TotalAmt]
 	FROM tblPODetails
 	WHERE [PODetailsID] = @PODetailsID
 END

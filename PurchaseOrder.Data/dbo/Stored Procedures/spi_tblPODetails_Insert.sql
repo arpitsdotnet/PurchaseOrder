@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[spi_tblPODetails_Insert]
 	@POID INT,
 	@ItemID INT,
+	@Details NVARCHAR(50),
 	@Qty INT,
 	@Rate DECIMAL(18,4),
 	@Amount DECIMAL(18,4),
@@ -12,8 +13,8 @@ BEGIN
 	BEGIN TRY		
 		BEGIN TRANSACTION
 			
-		INSERT INTO [dbo].[tblPODetails]([POID],[ItemID],[Qty],[Rate],[Amount],[DiscPer],[Discount],[TotalAmt])
-			 VALUES(@POID,@ItemID,@Qty,@Rate,@Amount,@DiscPer,@Discount,@TotalAmt);
+		INSERT INTO [dbo].[tblPODetails]([POID],[ItemID],[Details],[Qty],[Rate],[Amount],[DiscPer],[Discount],[TotalAmt])
+			 VALUES(@POID,@ItemID,@Details,@Qty,@Rate,@Amount,@DiscPer,@Discount,@TotalAmt);
 			 
 		--SELECT @Id = SCOPE_IDENTITY();
 

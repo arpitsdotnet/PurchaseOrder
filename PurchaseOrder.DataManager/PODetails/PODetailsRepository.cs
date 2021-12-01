@@ -88,7 +88,7 @@ namespace PurchaseOrder.DataManager.PODetails
             }
         }
 
-        public PODetailsModel GetByPOID(int POID)
+        public List<PODetailsModel> GetByPOID(int POID)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace PurchaseOrder.DataManager.PODetails
 
                 var result = _dbContext.LoadData<PODetailsModel, dynamic>("sps_tblPODetails_GetByPOID", p);
 
-                return result.FirstOrDefault();
+                return result;
             }
             catch
             {

@@ -66,7 +66,7 @@ namespace PurchaseOrder.BusinessManager.PODetails
             }
         }
 
-        public PODetailsModel GetByPOID(int POID)
+        public List<PODetailsModel> GetByPOID(int POID)
         {
             try
             {

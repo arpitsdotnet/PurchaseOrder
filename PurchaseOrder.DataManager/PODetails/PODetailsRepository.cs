@@ -40,6 +40,7 @@ namespace PurchaseOrder.DataManager.PODetails
                 {
                     POID = ID,
                     model.ItemID,
+                    model.Details,
                     model.Qty,
                     model.Rate,
                     model.Amount,
@@ -112,6 +113,7 @@ namespace PurchaseOrder.DataManager.PODetails
                 {
                     model.POID,
                     model.ItemID,
+                    model.Details,
                     model.Qty,
                     model.Rate,
                     model.Amount,
@@ -120,7 +122,14 @@ namespace PurchaseOrder.DataManager.PODetails
                     model.TotalAmt
                 };
 
-                var result = _dbContext.SaveData("spi_tblPODetails_Insert", p);
+                //var result = _dbContext.SaveData("spi_tblPODetails_Insert", p);
+                var result = _dbContext.SaveDataOutParam<dynamic, int>("spi_tblPODetails_Insert", p, out int PODetailsID, System.Data.DbType.Int32, null, "ID");
+
+
+                if (result > 0)
+                {
+                    model.PODetailsID = PODetailsID;
+                }
 
                 return result;
             }

@@ -123,7 +123,13 @@ namespace PurchaseOrder.DataManager.POMasters
                     model.Terms
                 };
 
-                var result = _dbContext.SaveData("spi_tblPOMaster_Insert", p);
+                //var result = _dbContext.SaveData("spi_tblPOMaster_Insert", p);
+                var result = _dbContext.SaveDataOutParam<dynamic, int>("spi_tblPOMaster_Insert", p, out int POID, System.Data.DbType.Int32, null, "ID");
+
+                if (result > 0)
+                {
+                    model.POID = POID;
+                }
 
                 return result;
             }

@@ -48,10 +48,32 @@ namespace PurchaseOrder.DataManager
             }
         }
 
-        //public int SaveDataOutParam<T, U>(string storedProcedure, T parameters, out U returnVar, DbType outputDbType, int? size, string outputVarName)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public int SaveDataOutParam<T, U>(string storedProcedure, T parameters, out U returnVar, DbType outputDbType, int? size, string outputVarName)
+        {
+            try
+            {
+                var dynamicp = new Dapper.DynamicParameters();
+                dynamicp.AddDynamicParams(parameters);
+
+                if (size == null)
+                    dynamicp.Add(outputVarName, null, dbType: outputDbType, direction: ParameterDirection.Output);
+                else
+                    dynamicp.Add(outputVarName, null, dbType: outputDbType, direction: ParameterDirection.Output, size);
+
+                using (SqlConnection con = new SqlConnection(ConnectionString))
+                {
+                    int i = con.Execute(storedProcedure, dynamicp, commandType: CommandType.StoredProcedure);
+
+                    returnVar = dynamicp.Get<U>(outputVarName);
+
+                    return i;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         //public int SaveDataWithSubdata<T, U, V>(string storedProcedureT, string storedProcedureU, T model, List<U> submodel, string modelIdName, out V returnVar, DbType outputDbType, int? size, string outputVarName)
         //{

@@ -17,7 +17,7 @@ BEGIN
 		UPDATE [dbo].[tblPOMaster]
 		SET
 			[PONo] = @PONo,
-			[PODate] = @PONo,
+			[PODate] = @PODate,
 			[PartyID] = @PartyID,
 			[Remarks] = @Remarks,
 			[TotalQty] = @TotalQty,

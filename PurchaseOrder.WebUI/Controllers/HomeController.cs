@@ -61,6 +61,11 @@ namespace PurchaseOrder.WebUI.Controllers
 
                 modelVM.PODetailsList = _poDetailsProcessor.GetByPOID(id.Value);
 
+                foreach (var item in modelVM.PODetailsList)
+                {
+                    item.ItemMaster = _itemMasterProcessor.GetByID(item.ItemID);
+                }
+
                 modelVM.PurchaseOrder = data;
             }
 
@@ -100,7 +105,7 @@ namespace PurchaseOrder.WebUI.Controllers
 
                     if (output > 0)
                     {
-                        SavePODetailsList();
+                        SavePODetailsList(modelVM.PurchaseOrder.POID);
                         return RedirectToAction(nameof(Index));
                     }
 
@@ -116,7 +121,7 @@ namespace PurchaseOrder.WebUI.Controllers
             var PODetailsList = _poDetailsProcessor.GetByPOID(id);
             foreach (var item in PODetailsList)
             {
-                _poDetailsProcessor.Delete(item.PODetailsID);
+                _poDetailsProcessor.Delete(item.PODetailsID.Value);
             }
         }
 
@@ -127,13 +132,42 @@ namespace PurchaseOrder.WebUI.Controllers
                 DeletePODetailsList(id);
             }
 
-            string listJSON = Request.Form["PODetailsList"];
+            string listJSON = Request.Form["hfPODetailsList"];
             List<PODetailsModel> poDetailsList = JsonConvert.DeserializeObject<List<PODetailsModel>>(listJSON);
 
             foreach (var item in poDetailsList)
             {
+                item.POID = id;
                 _poDetailsProcessor.Save(item);
             }
+        }
+
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            var modelVM = new PurchaseOrderViewModel
+            {
+                PartyMasters = _partyMasterProcessor.GetAll(),
+                ItemMasters = _itemMasterProcessor.GetAll(),
+                PurchaseOrder = _poMasterProcessor.GetByID(id)
+            };
+
+            //if (ModelState.IsValid)
+            {
+                // DELETE
+                int output = _poMasterProcessor.Delete(modelVM.PurchaseOrder.POID);
+
+                if (output > 0)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                ModelState.AddModelError("", "Purchase Order has not been successfully deleted.");
+
+            }
+
+            return View(modelVM);
         }
     }
 }

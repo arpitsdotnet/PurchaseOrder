@@ -94,6 +94,8 @@ else
                     </div>
                 </div>
                 <div class="row form-group">
+                    <input type="hidden" id="hfPODetailsList" name="hfPODetailsList" />
+
                     @Html.HiddenFor(model => model.PODetails.PODetailsID, new { id = "idPODetailsID" })
 
                     <div class="col-md-2">
@@ -156,7 +158,29 @@ else
                             <th class="col-md-2">Actions</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        @if (Model.PODetailsList != null && Model.PODetailsList.Count > 0)
+                        {
+                            foreach (var item in Model.PODetailsList)
+                            {
+                                <tr>
+                                    <td>@item.PODetailsID</td>
+                                    <td>@item.ItemMaster.ItemName</td>
+                                    <td>@item.Details</td>
+                                    <td>@item.Qty</td>
+                                    <td>@item.Rate</td>
+                                    <td>@item.Amount</td>
+                                    <td>@item.DiscPer</td>
+                                    <td>@item.Discount</td>
+                                    <td>@item.TotalAmt</td>
+                                    <td>
+                                        <a href='#' class='btn btn-success btn-sm edit'>EDIT</a>
+                                        <a href='#' class='btn btn-danger btn-sm delete'>DELETE</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
                 </table>
 
                 <div class="row form-group">
@@ -203,11 +227,11 @@ else
             <div class="col-md-offset-4 col-md-8">
                 <div class="btn-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
-                    <input type="reset" value="Reset" class="btn btn-default" />
+                    <input type="reset" value="Reset" class="btn btn-primary" />
                     @if (Model.PurchaseOrder != null && Model.PurchaseOrder.POID != 0)
                     {
-                        @Html.ActionLink("Delete", "Delete", new { POID = Model.PurchaseOrder.POID, @class = "btn btn-danger" })
-                        @Html.ActionLink("Exit", "Index", new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Delete", "Delete", new { id = Model.PurchaseOrder.POID }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Exit", "Index", new { }, new { @class = "btn btn-primary" })
                     }
                 </div>
             </div>
@@ -286,7 +310,7 @@ else
                     }
                     rowIdx++;
                     markup = "<tr class='row' id='" + gridRowIndexPrefix + rowIdx + "'><td style='display:none;'>" + $ID + "</td>" +
-                        "<td data-id='" + $ItemID + "'>" + $ItemName + "</td>" +
+                        "<td id='" + $ItemID + "'>" + $ItemName + "</td>" +
                         "<td>" + $Details + "</td>" +
                         "<td>" + $Qty + "</td>" +
                         "<td>" + $Rate + "</td>" +
@@ -295,7 +319,7 @@ else
                         "<td>" + $Discount + "</td>" +
                         "<td>" + $TotalAmt + "</td>" +
                         "<td><a href='#' class='btn btn-success btn-sm edit'>EDIT</a>" +
-                        "<a href='#' class='btn btn-danger btn-sm delete'>DELETE</a></td > " +
+                        "<a href='#' class='btn btn-danger btn-sm delete'>DELETE</a></td>" +
                         "</tr>";
                     tableBody = $("#tblItemGrid tbody");
                     tableBody.append(markup);
@@ -314,33 +338,6 @@ else
                     $this.eq(8).html($TotalAmt);
                 }
 
-                //Create an Array to hold the Table values.
-                var poDetailsList = new Array();
-                $grid = $("#tblItemGrid").find("tr");
-                $grid.each(function (i, el) {
-                    var $tds = $(this).find('td');
-                    if ($tds.html() != undefined) {
-
-                        var poDetails = {};
-
-                        poDetails.PODetailsID = $tds.eq(0).text();
-                        poDetails.POID = $("#idPOID").val();
-                        poDetails.ItemID = $tds.eq(1).text();
-                        //$tds.eq(1).text();
-                        //$tds.eq(2).text();
-                        $totalQty += parseInt($tds.eq(3).text());
-                        //$tds.eq(4).text();
-                        $totalAmount += parseFloat($tds.eq(5).text());
-                        //$tds.eq(6).text();
-                        $totalDiscount += parseFloat($tds.eq(7).text());
-                        $totalGrantTotal += parseFloat($tds.eq(8).text());
-
-                        $("#idPOMasterTotalQty").val($totalQty);
-                        $("#idPOMasterTotalAmount").val($totalAmount);
-                        $("#idPOMasterTotalDiscount").val($totalDiscount);
-                        $("#idPOMasterGrandTotal").val($totalGrantTotal);
-                    }
-                });
 
                 $("#btnItemFormAdd").text("ADD");
                 $("#idPODetailsID").val("");
@@ -354,7 +351,40 @@ else
                 $("#idPODetailsTotalAmt").val("");
 
                 CalculateItemGridTotal();
+                ConvertPODetailsIntoJson();
             });
+        }
+
+        function ConvertPODetailsIntoJson() {
+
+            //Create an Array to hold the Table values.
+            var poDetailsList = new Array();
+            $grid = $("#tblItemGrid").find("tr");
+            $grid.each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.html() != undefined) {
+
+                    var poDetails = {};
+
+                    console.log($tds.eq(1).attr("id"));
+
+                    poDetails.PODetailsID = $tds.eq(0).text();
+                    poDetails.POID = $("#idPOID").val();
+                    poDetails.ItemID = $tds.eq(1).attr("id");
+                    poDetails.Details = $tds.eq(2).text();
+                    poDetails.Qty = parseInt($tds.eq(3).text());
+                    poDetails.Rate = parseFloat($tds.eq(4).text());
+                    poDetails.Amount = parseFloat($tds.eq(5).text());
+                    poDetails.DiscPer = parseFloat($tds.eq(6).text() == "" ? 0 : $tds.eq(6).text());
+                    poDetails.Discount = parseFloat($tds.eq(7).text());
+                    poDetails.TotalAmt = parseFloat($tds.eq(8).text());
+
+                    poDetailsList.push(poDetails);
+                }
+            });
+
+            //Convert the JSON object to string and assign to Hidden Field.
+            $("#hfPODetailsList").val(JSON.stringify(poDetailsList));
         }
 
         function ItemFormClear() {
@@ -385,15 +415,15 @@ else
             });
         }
         function CalculateTotal() {
-            var $Qty = $("#idPODetailsQty").val();
-            var $Rate = $("#idPODetailsRate").val();
-            var $DiscPer = $("#idPODetailsDiscPer").val();
+            var $Qty = parseFloat($("#idPODetailsQty").val());
+            var $Rate = parseFloat($("#idPODetailsRate").val());
+            var $DiscPer = parseFloat($("#idPODetailsDiscPer").val());
 
             var $Amount = $("#idPODetailsAmount");
             var $Discount = $("#idPODetailsDiscount");
             var $TotalAmt = $("#idPODetailsTotalAmt");
 
-            let amount = parseFloat($Qty) * parseFloat($Rate);
+            let amount = $Qty * $Rate;
             $Amount.val(amount);
 
             let discountAmount = CalculateDiscount(amount, $DiscPer);

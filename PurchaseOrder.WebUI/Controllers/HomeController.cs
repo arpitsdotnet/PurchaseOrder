@@ -1,4 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using PurchaseOrder.BusinessManager.ItemMasters;
+using PurchaseOrder.BusinessManager.PartyMasters;
+using PurchaseOrder.BusinessManager.PODetails;
+using PurchaseOrder.BusinessManager.POMasters;
+using PurchaseOrder.Services.Models;
+using PurchaseOrder.WebUI.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,23 +15,125 @@ namespace PurchaseOrder.WebUI.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IPOMasterProcessor _poMasterProcessor;
+        private readonly IPODetailsProcessor _poDetailsProcessor;
+        private readonly IPartyMasterProcessor _partyMasterProcessor;
+        private readonly IItemMasterProcessor _itemMasterProcessor;
+
+        public HomeController(
+            IPOMasterProcessor poMasterProcessor,
+            IPODetailsProcessor poDetailsProcessor,
+            IPartyMasterProcessor partyMasterProcessor,
+            IItemMasterProcessor itemMasterProcessor
+            )
+        {
+            this._poMasterProcessor = poMasterProcessor;
+            this._poDetailsProcessor = poDetailsProcessor;
+            this._partyMasterProcessor = partyMasterProcessor;
+            this._itemMasterProcessor = itemMasterProcessor;
+        }
+
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<POMasterModel> model = _poMasterProcessor.GetAll();
+
+            foreach (var item in model)
+            {
+                item.PartyMaster = _partyMasterProcessor.GetByID(item.PartyID);
+            }
+
+            return View(model);
         }
 
-        public ActionResult About()
+        [HttpGet]
+        public ActionResult Save(int? id)
         {
-            ViewBag.Message = "Your application description page.";
+            var modelVM = new PurchaseOrderViewModel
+            {
+                PartyMasters = _partyMasterProcessor.GetAll(),
+                ItemMasters = _itemMasterProcessor.GetAll()
+            };
 
-            return View();
+            if (id != null)
+            {
+                var data = _poMasterProcessor.GetByID(id.Value);
+
+                modelVM.PODetailsList = _poDetailsProcessor.GetByPOID(id.Value);
+
+                modelVM.PurchaseOrder = data;
+            }
+
+            return View(modelVM);
         }
 
-        public ActionResult Contact()
+        [HttpPost, ActionName("Save")]
+        [ValidateAntiForgeryToken]
+        public ActionResult SavePost(PurchaseOrderViewModel model)
         {
-            ViewBag.Message = "Your contact page.";
+            var modelVM = new PurchaseOrderViewModel
+            {
+                PartyMasters = _partyMasterProcessor.GetAll(),
+                ItemMasters = _itemMasterProcessor.GetAll(),
+                PurchaseOrder = model.PurchaseOrder
+            };
 
-            return View();
+            //if (ModelState.IsValid)
+            {
+                if (modelVM.PurchaseOrder.POID != 0)
+                {
+                    // UPDATE
+                    int output = _poMasterProcessor.Edit(modelVM.PurchaseOrder.POID, model.PurchaseOrder);
+
+                    if (output > 0)
+                    {
+                        SavePODetailsList(modelVM.PurchaseOrder.POID);
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                    ModelState.AddModelError("", "Purchase Order has not been successfully updated.");
+                }
+                else
+                {
+                    // CREATE
+                    int output = _poMasterProcessor.Save(model.PurchaseOrder);
+
+                    if (output > 0)
+                    {
+                        SavePODetailsList();
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                    ModelState.AddModelError("", "Purchase Order has not been successfully created.");
+                }
+            }
+
+            return View(modelVM);
+        }
+
+        private void DeletePODetailsList(int id)
+        {
+            var PODetailsList = _poDetailsProcessor.GetByPOID(id);
+            foreach (var item in PODetailsList)
+            {
+                _poDetailsProcessor.Delete(item.PODetailsID);
+            }
+        }
+
+        private void SavePODetailsList(int id = 0)
+        {
+            if (id != 0)
+            {
+                DeletePODetailsList(id);
+            }
+
+            string listJSON = Request.Form["PODetailsList"];
+            List<PODetailsModel> poDetailsList = JsonConvert.DeserializeObject<List<PODetailsModel>>(listJSON);
+
+            foreach (var item in poDetailsList)
+            {
+                _poDetailsProcessor.Save(item);
+            }
         }
     }
 }

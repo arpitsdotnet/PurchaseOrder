@@ -1,0 +1,502 @@
+﻿@model PurchaseOrder.WebUI.Models.ViewModels.PurchaseOrderViewModel
+
+@{
+    ViewBag.Title = "Create Purchase Order";
+}
+
+@if (Model.PurchaseOrder != null && Model.PurchaseOrder.POID != 0)
+{
+    <h2 class="text-info">Edit Purchase Order</h2>
+}
+else
+{
+    <h2 class="text-info">Create Purchase Order</h2>
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.PurchaseOrder.POID, new { id = "idPOID" });
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.PurchaseOrder.PONo, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.PurchaseOrder.PONo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PurchaseOrder.PONo, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.PurchaseOrder.PODate, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.PurchaseOrder.PODate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PurchaseOrder.PODate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.PurchaseOrder.PartyID, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.PurchaseOrder.PartyID, Model.PartyMasters.Select(m => new SelectListItem { Text = m.PartyName, Value = m.PartyID.ToString() }), " - SELECT PARTY - ", new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.PartyID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PartyID, "", new { @class = "text-danger" })*@
+            </div>
+
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.PurchaseOrder.Remarks, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.PurchaseOrder.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PurchaseOrder.Remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <fieldset>
+            <legend class="text-info" style="margin-bottom:0;">&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-check"></i> Item Create</legend>
+            <div style="background-color:#dee9ed; padding:10px 0;">
+                <!-- ADD FORM -->
+                <div class="row form-group">
+                    <div class="col-md-2  ">
+                        <label class="control-label">Item Name</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">Details</label>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="control-label">Qty</label>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="control-label">Rate</label>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="control-label">Amount</label>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="control-label">Disc %</label>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="control-label">Discount</label>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="control-label">Total</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label">Actions</label>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    @Html.HiddenFor(model => model.PODetails.PODetailsID, new { id = "idPODetailsID" })
+
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(model => model.PODetails.ItemID, Model.ItemMasters.Select(m => new SelectListItem { Text = m.ItemName, Value = m.ItemID.ToString() }), " - SELECT ITEM - ", new { id = "idPODetailsItemID", @class = "form-control" })
+                    </div>
+                    <div class="col-md-2">
+                        <!-- DETAILS -->
+                        @Html.TextBox("idPODetailsDetails", "", new { id = "idPODetailsDetails", @class = "form-control" })
+                    </div>
+                    <div class="col-md-1">
+                        <!-- QTY -->
+                        @Html.EditorFor(model => model.PODetails.Qty, new { htmlAttributes = new { id = "idPODetailsQty", @class = "form-control" } })
+                    </div>
+                    <div class="col-md-1">
+                        <!-- RATE -->
+                        @Html.EditorFor(model => model.PODetails.Rate, new { htmlAttributes = new { id = "idPODetailsRate", @class = "form-control" } })
+                    </div>
+                    <div class="col-md-1">
+                        <!-- AMOUNT -->
+                        @Html.EditorFor(model => model.PODetails.Amount, new { htmlAttributes = new { id = "idPODetailsAmount", @readonly = "readonly", @class = "form-control" } })
+                    </div>
+                    <div class="col-md-1">
+                        <!-- DISC% -->
+                        @Html.EditorFor(model => model.PODetails.DiscPer, new { htmlAttributes = new { id = "idPODetailsDiscPer", @class = "form-control" } })
+                    </div>
+                    <div class="col-md-1">
+                        <!-- DISCOUNT -->
+                        @Html.EditorFor(model => model.PODetails.Discount, new { htmlAttributes = new { id = "idPODetailsDiscount", @readonly = "readonly", @class = "form-control readonly" } })
+                    </div>
+                    <div class="col-md-1">
+                        <!-- TOTAL -->
+                        @Html.EditorFor(model => model.PODetails.TotalAmt, new { htmlAttributes = new { id = "idPODetailsTotalAmt", @readonly = "readonly", @class = "form-control readonly" } })
+                    </div>
+                    <div class="col-md-2">
+                        <!-- BUTTONS -->
+                        <a href="#" id="btnItemFormAdd" class="btn btn-success btn-sm">ADD</a>
+                        <a href="#" id="btnItemFormClear" class="btn btn-default btn-sm">CLEAR</a>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <div style="padding: 10px;"></div>
+        <fieldset>
+            <legend class="text-info" style="margin-bottom:0;">&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-list"></i> Item List</legend>
+            <div style="background-color:#dee9ed; padding:10px 0;">
+                <!-- GRID -->
+                <table id="tblItemGrid" style="width:100%;" class="table table-bordered table-hover table-responsive table-striped">
+                    <thead>
+                        <tr class="row form-group">
+                            <th style='display:none;'>ID</th>
+                            <th class="col-md-2"><label>Item Name</label></th>
+                            <th class="col-md-2">Details</th>
+                            <th class="col-md-1">Qty</th>
+                            <th class="col-md-1">Rate</th>
+                            <th class="col-md-1">Amount</th>
+                            <th class="col-md-1">Disc %</th>
+                            <th class="col-md-1">Discount</th>
+                            <th class="col-md-1">Total</th>
+                            <th class="col-md-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <div class="row form-group">
+                    <div class="col-md-4 text-right">
+                        <label class="control-label">Grand Totals --></label>
+                    </div>
+                    <div class="col-md-1">
+                        @Html.EditorFor(model => model.PurchaseOrder.TotalQty, new { htmlAttributes = new { id = "idPOMasterTotalQty", @readonly = "readonly", @class = "form-control" } });
+                        @Html.ValidationMessageFor(model => model.PurchaseOrder.TotalQty, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-1">
+                        @Html.EditorFor(model => model.PurchaseOrder.TotalAmount, new { htmlAttributes = new { id = "idPOMasterTotalAmount", @readonly = "readonly", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PurchaseOrder.TotalAmount, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-1">
+                        @Html.EditorFor(model => model.PurchaseOrder.TotalDiscount, new { htmlAttributes = new { id = "idPOMasterTotalDiscount", @readonly = "readonly", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PurchaseOrder.TotalDiscount, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-1">
+                        @Html.EditorFor(model => model.PurchaseOrder.GrandTotal, new { htmlAttributes = new { id = "idPOMasterGrandTotal", @readonly = "readonly", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PurchaseOrder.GrandTotal, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.PurchaseOrder.Terms, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-10 ">
+                @Html.EditorFor(model => model.PurchaseOrder.Terms, new { htmlAttributes = new { @class = "form-control", style = "width:100%;" } })
+                @Html.ValidationMessageFor(model => model.PurchaseOrder.Terms, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <div class="btn-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="reset" value="Reset" class="btn btn-default" />
+                    @if (Model.PurchaseOrder != null && Model.PurchaseOrder.POID != 0)
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { POID = Model.PurchaseOrder.POID, @class = "btn btn-danger" })
+                        @Html.ActionLink("Exit", "Index", new { @class = "btn btn-warning" })
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @*Scripts.Render("~/bundles/jqueryval")*@
+
+    <script>
+
+        // Denotes total number of rows.
+        var rowIdx = 0;
+        var gridRowIndexPrefix = "ItemGridRow_";
+        var gridEditHidden = "";
+
+
+        $(document).ready(function () {
+            ItemFormAdd();
+            ItemFormClear();
+
+            ItemFormChange();
+
+            ItemGridEdit();
+            ItemGridDelete();
+        })
+
+
+        function ItemFormAdd() {
+
+            $("#btnItemFormAdd").on('click', function () {
+                var $ID = $("#idPODetailsID").val();
+                var $POID = $("#idPOID").val();
+                var $ItemID = $("#idPODetailsItemID :selected").val();
+                var $ItemName = $("#idPODetailsItemID :selected").text();
+                var $Details = $("#idPODetailsDetails").val();
+                var $Qty = $("#idPODetailsQty").val();
+                var $Rate = $("#idPODetailsRate").val();
+                var $Amount = $("#idPODetailsAmount").val();
+                var $DiscPer = $("#idPODetailsDiscPer").val();
+                var $Discount = $("#idPODetailsDiscount").val();
+                var $TotalAmt = $("#idPODetailsTotalAmt").val();
+
+                if ($ItemID == "" || $ItemID == 0) {
+                    alert("Please select a item from 'Item Name' field.");
+                    return;
+                }
+                if ($Qty == "" || $Qty == 0) {
+                    alert("Please enter quantity into 'Qty' field.");
+                    return;
+                }
+                if ($Rate == "" || $Rate == 0) {
+                    alert("Please enter rate into 'Rate' field.");
+                    return;
+                }
+
+                if (gridEditHidden == "" || gridEditHidden == 0) {
+
+                    let isItemAlreadyExists = false;
+
+                    $grid = $("#tblItemGrid").find("tr");
+                    $grid.each(function (i, el) {
+                        var $tds = $(this).find('td');
+                        if ($tds.html() != undefined) {
+
+                            if ($tds.eq(1).text() == $ItemName) {
+                                isItemAlreadyExists = true;
+                            }
+                        }
+                    });
+
+                    if (isItemAlreadyExists == true) {
+                        alert("Item name already exists. Please select another name.");
+                        return;
+                    }
+                    rowIdx++;
+                    markup = "<tr class='row' id='" + gridRowIndexPrefix + rowIdx + "'><td style='display:none;'>" + $ID + "</td>" +
+                        "<td data-id='" + $ItemID + "'>" + $ItemName + "</td>" +
+                        "<td>" + $Details + "</td>" +
+                        "<td>" + $Qty + "</td>" +
+                        "<td>" + $Rate + "</td>" +
+                        "<td>" + $Amount + "</td>" +
+                        "<td>" + $DiscPer + "</td>" +
+                        "<td>" + $Discount + "</td>" +
+                        "<td>" + $TotalAmt + "</td>" +
+                        "<td><a href='#' class='btn btn-success btn-sm edit'>EDIT</a>" +
+                        "<a href='#' class='btn btn-danger btn-sm delete'>DELETE</a></td > " +
+                        "</tr>";
+                    tableBody = $("#tblItemGrid tbody");
+                    tableBody.append(markup);
+                }
+                else {
+                    $this = $('#' + gridEditHidden).find("td");
+                    $this.eq(0).html($ID);
+                    $this.eq(1).attr("id", $ItemName);
+                    $this.eq(1).html($ItemName);
+                    $this.eq(2).html($Details);
+                    $this.eq(3).html($Qty);
+                    $this.eq(4).html($Rate);
+                    $this.eq(5).html($Amount);
+                    $this.eq(6).html($DiscPer);
+                    $this.eq(7).html($Discount);
+                    $this.eq(8).html($TotalAmt);
+                }
+
+                //Create an Array to hold the Table values.
+                var poDetailsList = new Array();
+                $grid = $("#tblItemGrid").find("tr");
+                $grid.each(function (i, el) {
+                    var $tds = $(this).find('td');
+                    if ($tds.html() != undefined) {
+
+                        var poDetails = {};
+
+                        poDetails.PODetailsID = $tds.eq(0).text();
+                        poDetails.POID = $("#idPOID").val();
+                        poDetails.ItemID = $tds.eq(1).text();
+                        //$tds.eq(1).text();
+                        //$tds.eq(2).text();
+                        $totalQty += parseInt($tds.eq(3).text());
+                        //$tds.eq(4).text();
+                        $totalAmount += parseFloat($tds.eq(5).text());
+                        //$tds.eq(6).text();
+                        $totalDiscount += parseFloat($tds.eq(7).text());
+                        $totalGrantTotal += parseFloat($tds.eq(8).text());
+
+                        $("#idPOMasterTotalQty").val($totalQty);
+                        $("#idPOMasterTotalAmount").val($totalAmount);
+                        $("#idPOMasterTotalDiscount").val($totalDiscount);
+                        $("#idPOMasterGrandTotal").val($totalGrantTotal);
+                    }
+                });
+
+                $("#btnItemFormAdd").text("ADD");
+                $("#idPODetailsID").val("");
+                $("#idPODetailsItemID").val("");
+                $("#idPODetailsDetails").val("");
+                $("#idPODetailsQty").val("");
+                $("#idPODetailsRate").val("");
+                $("#idPODetailsAmount").val("");
+                $("#idPODetailsDiscPer").val("");
+                $("#idPODetailsDiscount").val("");
+                $("#idPODetailsTotalAmt").val("");
+
+                CalculateItemGridTotal();
+            });
+        }
+
+        function ItemFormClear() {
+
+            $("#btnItemFormAdd").text("ADD");
+            $("#btnItemFormClear").on('click', function () {
+                $("#idPODetailsID").val("");
+                $("#idPODetailsItemID").val("");
+                $("#idPODetailsDetails").val("");
+                $("#idPODetailsQty").val("");
+                $("#idPODetailsRate").val("");
+                $("#idPODetailsAmount").val("");
+                $("#idPODetailsDiscPer").val("");
+                $("#idPODetailsDiscount").val("");
+                $("#idPODetailsTotalAmt").val("");
+            });
+        }
+
+        function ItemFormChange() {
+            $("#idPODetailsQty").on('change', function () {
+                CalculateTotal()
+            });
+            $("#idPODetailsRate").on('change', function () {
+                CalculateTotal()
+            });
+            $("#idPODetailsDiscPer").on('change', function () {
+                CalculateTotal()
+            });
+        }
+        function CalculateTotal() {
+            var $Qty = $("#idPODetailsQty").val();
+            var $Rate = $("#idPODetailsRate").val();
+            var $DiscPer = $("#idPODetailsDiscPer").val();
+
+            var $Amount = $("#idPODetailsAmount");
+            var $Discount = $("#idPODetailsDiscount");
+            var $TotalAmt = $("#idPODetailsTotalAmt");
+
+            let amount = parseFloat($Qty) * parseFloat($Rate);
+            $Amount.val(amount);
+
+            let discountAmount = CalculateDiscount(amount, $DiscPer);
+            $Discount.val(discountAmount);
+
+            let discountVal = $Discount.val() == "" ? 0 : parseFloat($Discount.val());
+            let totalAmount = parseFloat(amount) - discountVal;
+            $TotalAmt.val(totalAmount);
+        }
+        function CalculateDiscount($Amount, $DiscPer) {
+
+            if (parseFloat($DiscPer) > 0)
+                return parseFloat($Amount) * parseFloat($DiscPer) / 100;
+
+            return 0;
+        }
+
+        function CalculateItemGridTotal() {
+
+            let $totalQty = 0, $totalAmount = 0, $totalDiscount = 0, $totalGrantTotal = 0;
+
+            $grid = $("#tblItemGrid").find("tr");
+            $grid.each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.html() != undefined) {
+
+                    //$tds.eq(0).text();
+                    //$tds.eq(1).text();
+                    //$tds.eq(2).text();
+                    $totalQty += parseInt($tds.eq(3).text());
+                    //$tds.eq(4).text();
+                    $totalAmount += parseFloat($tds.eq(5).text());
+                    //$tds.eq(6).text();
+                    $totalDiscount += parseFloat($tds.eq(7).text());
+                    $totalGrantTotal += parseFloat($tds.eq(8).text());
+
+                    $("#idPOMasterTotalQty").val($totalQty);
+                    $("#idPOMasterTotalAmount").val($totalAmount);
+                    $("#idPOMasterTotalDiscount").val($totalDiscount);
+                    $("#idPOMasterGrandTotal").val($totalGrantTotal);
+                }
+            });
+        }
+
+        function ItemGridEdit() {
+            // jQuery button click event to remove a row
+            $('#tblItemGrid tbody').on('click', '.edit', function () {
+
+                $("#btnItemFormAdd").text("EDIT");
+                $(this).closest('tr').each(function (i, el) {
+                    gridEditHidden = $(this).attr("id").val();
+
+                    var $tds = $(this).find('td');
+
+                    $("#idPODetailsID").val($tds.eq(0).text());
+                    $("#idPODetailsItemID").text($tds.eq(1).text());
+                    $("#idPODetailsDetails").val($tds.eq(2).text());
+                    $("#idPODetailsQty").val($tds.eq(3).text());
+                    $("#idPODetailsRate").val($tds.eq(4).text());
+                    $("#idPODetailsAmount").val($tds.eq(5).text());
+                    $("#idPODetailsDiscPer").val($tds.eq(6).text());
+                    $("#idPODetailsDiscount").val($tds.eq(7).text());
+                    $("#idPODetailsTotalAmt").val($tds.eq(8).text());
+                });
+            });
+        }
+        function ItemGridDelete() {
+            // jQuery button click event to remove a row
+            $('#tblItemGrid tbody').on('click', '.delete', function () {
+
+                // Getting all the rows next to the
+                // row containing the clicked button
+                var child = $(this).closest('tr').nextAll();
+
+                // Iterating across all the rows
+                // obtained to change the index
+                child.each(function () {
+
+                    // Getting <tr> id.
+                    var id = $(this).attr('id');
+
+                    // Getting the <p> inside the .row-index class.
+                    //var idx = $(this).children('.row-index').children('p');
+
+                    // Gets the row number from <tr> id.
+                    var dig = parseInt(id.substring(gridRowIndexPrefix.length, 1));
+
+                    // Modifying row index.
+                    //idx.html(`Row ${dig - 1}`);
+
+                    // Modifying row id.
+                    $(this).attr('id', gridRowIndexPrefix + (dig - 1));
+                });
+
+                // Removing the current row.
+                $(this).closest('tr').remove();
+
+                // Decreasing the total number of rows by 1.
+                rowIdx--;
+
+                CalculateItemGridTotal();
+            });
+        }
+
+    </script>
+}

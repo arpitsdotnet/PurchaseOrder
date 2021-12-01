@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[spi_tblPODetails_Insert]
+	@ID INT = 0 OUTPUT,
 	@POID INT,
 	@ItemID INT,
 	@Details NVARCHAR(50),
@@ -16,7 +17,7 @@ BEGIN
 		INSERT INTO [dbo].[tblPODetails]([POID],[ItemID],[Details],[Qty],[Rate],[Amount],[DiscPer],[Discount],[TotalAmt])
 			 VALUES(@POID,@ItemID,@Details,@Qty,@Rate,@Amount,@DiscPer,@Discount,@TotalAmt);
 			 
-		--SELECT @Id = SCOPE_IDENTITY();
+		SELECT @ID = SCOPE_IDENTITY();
 
 		COMMIT TRANSACTION
 	END TRY

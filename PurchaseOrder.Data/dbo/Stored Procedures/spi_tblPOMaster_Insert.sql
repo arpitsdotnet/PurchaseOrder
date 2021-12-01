@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[spi_tblPOMaster_Insert]
+	@ID INT = 0 OUTPUT,
 	@PONo NVARCHAR(50),
 	@PODate DATETIME,
 	@PartyID INT,
@@ -16,7 +17,7 @@ BEGIN
 		INSERT INTO [dbo].[tblPOMaster]([PONo],[PODate],[PartyID],[Remarks],[TotalQty],[TotalAmount],[TotalDiscount],[GrandTotal],[Terms])
 			 VALUES(@PONo,@PODate,@PartyID,@Remarks,@TotalQty,@TotalAmount,@TotalDiscount,@GrandTotal,@Terms);
 			 
-		--SELECT @Id = SCOPE_IDENTITY();
+		SELECT @ID = SCOPE_IDENTITY();
 
 		COMMIT TRANSACTION
 	END TRY

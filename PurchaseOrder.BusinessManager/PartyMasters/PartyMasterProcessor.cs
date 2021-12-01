@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace PurchaseOrder.BusinessManager.PartyMasters
 {
-    public class PODetailsProcessor : IPartyMasterProcessor
+    public class PartyMasterProcessor : IPartyMasterProcessor
     {
         private readonly IPartyMasterRepository _partyMasterRepo;
 
-        public PODetailsProcessor()
+        public PartyMasterProcessor()
         {
             this._partyMasterRepo = new PartyMasterRepository();
         }

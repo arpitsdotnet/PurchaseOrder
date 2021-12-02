@@ -17,6 +17,11 @@ namespace PurchaseOrder.BusinessManager.POMasters
             this._poMasterRepo = new POMasterRepository();
         }
 
+        public POMasterProcessor(IPOMasterRepository poMasterRepo)
+        {
+            this._poMasterRepo = poMasterRepo;
+        }
+
         public int Delete(int ID)
         {
             try

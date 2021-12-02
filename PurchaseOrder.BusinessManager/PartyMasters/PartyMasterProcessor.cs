@@ -18,6 +18,11 @@ namespace PurchaseOrder.BusinessManager.PartyMasters
             this._partyMasterRepo = new PartyMasterRepository();
         }
 
+        public PartyMasterProcessor(IPartyMasterRepository partyMasterRepo)
+        {
+            this._partyMasterRepo = partyMasterRepo;
+        }
+
         public int Delete(int ID)
         {
             try

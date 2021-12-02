@@ -18,6 +18,11 @@ namespace PurchaseOrder.BusinessManager.PODetails
             this._poDetailsRepo = new PODetailsRepository();
         }
 
+        public PODetailsProcessor(IPODetailsRepository poDetailsRepo)
+        {
+            this._poDetailsRepo = poDetailsRepo;
+        }
+
         public int Delete(int ID)
         {
             try

@@ -21,7 +21,7 @@ else
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @Html.HiddenFor(model => model.PurchaseOrder.POID, new { id = "idPOID" });
+        @Html.HiddenFor(model => model.PurchaseOrder.POID, new { id = "idPOID" })
 
         <div class="row form-group">
             <div class="col-md-2">
@@ -231,8 +231,8 @@ else
                     @if (Model.PurchaseOrder != null && Model.PurchaseOrder.POID != 0)
                     {
                         @Html.ActionLink("Delete", "Delete", new { id = Model.PurchaseOrder.POID }, new { @class = "btn btn-primary" })
-                        @Html.ActionLink("Exit", "Index", new { }, new { @class = "btn btn-primary" })
                     }
+                    @Html.ActionLink("Exit", "Index", new { }, new { @class = "btn btn-primary" })
                 </div>
             </div>
         </div>

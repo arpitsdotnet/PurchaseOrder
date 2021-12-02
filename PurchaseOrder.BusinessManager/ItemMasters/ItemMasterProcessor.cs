@@ -16,6 +16,10 @@ namespace PurchaseOrder.BusinessManager.ItemMasters
         {
             this._itemMasterRepo = new ItemMasterRepository();
         }
+        public ItemMasterProcessor(IItemMasterRepository itemMasterRepo)
+        {
+            this._itemMasterRepo = itemMasterRepo;
+        }
 
         public int Delete(int ID)
         {

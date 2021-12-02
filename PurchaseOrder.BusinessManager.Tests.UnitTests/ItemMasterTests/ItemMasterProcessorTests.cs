@@ -91,5 +91,40 @@ namespace PurchaseOrder.BusinessManager.Tests.UnitTests.ItemMasterTests
             Assert.That(expected, Is.EqualTo(actual));
         }
 
+        [Test]
+        public void Save_WhenCalled_ShouldThrowsNotImplementedException()
+        {
+            // Arrange
+            IItemMasterProcessor _sut = new ItemMasterProcessor();
+
+            // Act
+
+            // Assert
+            Assert.Throws<NotImplementedException>(() => _sut.Save(It.IsAny<ItemMasterModel>()));
+        }
+
+        [Test]
+        public void Edit_WhenCalled_ShouldThrowsNotImplementedException()
+        {
+            // Arrange
+            IItemMasterProcessor _sut = new ItemMasterProcessor();
+
+            // Act
+
+            // Assert
+            Assert.Throws<NotImplementedException>(() => _sut.Edit(It.IsAny<int>(), It.IsAny<ItemMasterModel>()));
+        }
+
+        [Test]
+        public void Delete_WhenCalled_ShouldThrowsNotImplementedException()
+        {
+            // Arrange
+            IItemMasterProcessor _sut = new ItemMasterProcessor();
+
+            // Act
+
+            // Assert
+            Assert.Throws<NotImplementedException>(() => _sut.Delete(It.IsAny<int>()));
+        }
     }
 }
